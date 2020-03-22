@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Phaser Template</title>
+	<script src="phaser.js"></script>
+</head>
+<body>
+
+<div id="gameContainer"></div>
+
+<script>
+	var game;
+	window.onload = function() {
+		game = new Phaser.Game(700, 700, Phaser.AUTO, 'gameContainer', {preload: preload, create: create, update: update});
+	};
+
+	function preload(){
+		game.load.image('map', 'map.png');
+
+	}
+
+	var points = [];
+	function create(){
+
+		// Map and physics
+		//
+		var map = game.add.sprite(0, 0, 'map');
+		game.physics.startSystem(Phaser.Physics.P2JS);
+		game.physics.p2.gravity.y = 500;
+		game.physics.p2.restitution = 0.3;
+
+		var g = game.add.graphics(0, 0);
+			g.beginFill(0xF3929D, 1);
+			g.drawCircle(350, 350, 20);
+
+		/* Points
+			349, 670 center bottom
+			349, 30 center top
+			30, 350 left center
+			670, 350 right center
+
+			481 x 481 square rot 45
+		*/
+
+		for(var y=0; y<10; y++){
+			for(var x=0; x<10; x++){
+
+				// original x and y
+				var ox = 109.5 + 53 * x;
+				var oy = 109.5 + 53 * y;
+
+				// transulate original to x y plane
+				var sx = -1 * (350 - ox);
+				var sy = 350 - oy;
+
+				// multiply by rot matrix
+				var rx = sx * Math.cos(Math.PI/4) + sy * Math.sin(Math.PI/4);
+				var ry = sx * Math.sin(Math.PI/4) - sy * Math.cos(Math.PI/4);
+
+				// un transulate coords
+				var fx = 350 + rx;
+				var fy = 350 + ry;
+
+				sprite = game.add.sprite(fx, fy, g.generateTexture());
+				sprite.anchor.set(0.5);
+				game.physics.p2.enable(sprite, false);
+				sprite.body.setCircle(10);
+				sprite.body.static = true;
+
+				points.push(sprite);
+			}
+
+
+
+		}
+		g.destroy();
+
+		game.input.onDown.add(click, this);
+	}
+
+	function click(pointer) {
+		var bodies = game.physics.p2.hitTest(pointer.position, points);
+
+		if (bodies.length === 0){
+			//console.log( "You didn't click a Body" );
+
+		}else{
+			for (var i = 0; i < bodies.length; i++){
+				bodies[i].parent.static = false
+				if( Math.random() > 0.5){
+					bodies[i].parent.velocity.x += 1;
+
+				}else{
+					bodies[i].parent.velocity.x -= 1;
+
+				}
+			}
+		}
+	}
+
+	function update(){
+
+	}
+</script>
+
+</body>
+</html>
