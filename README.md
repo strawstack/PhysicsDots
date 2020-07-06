@@ -4,11 +4,11 @@ A physics simulation made with PhaserJS. Dots fall with gravity when clicked.
 
 # Live Demo
 
-[View Live Demo](https://regularmemory.blog/PhysicsDots/)
+[View Live Demo](https://strawstack.github.io/PhysicsDots/)
 
 # Screenshot
 
-[![](./screenshot.png)](https://regularmemory.blog/PhysicsDots/)
+[![](./screenshot.png)](https://strawstack.github.io/PhysicsDots/)
 
 # Explanation
 
@@ -18,4 +18,4 @@ In order to place the dots in a diamond shaped grid pattern. The dots were frist
 
 ![](./screenshot2.png)
 
-[![](./screenshot.png)](https://regularmemory.blog/PhysicsDots/)
+[![](./screenshot.png)](https://strawstack.github.io/PhysicsDots/)
